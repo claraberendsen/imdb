@@ -1,0 +1,1 @@
+export const EMPTY_STRING = '%22%22' as const

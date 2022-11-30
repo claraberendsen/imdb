@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import './App.css';
+import { ErrorPage } from './pages/ErrorPage';
+import { AuthContext } from './context/Auth';
+import { Home } from './pages/Home';
+import { Login } from './pages/Login';
+
 
 function App() {
+  const [authenticated, setAuthenticated] = useState<boolean>(false)
+
   return (
+    
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Suspense fallback={<ErrorPage />}>
+      <AuthContext.Provider value={{authenticated, setAuthenticated : (val: boolean) => setAuthenticated(val) }}>
+        {authenticated ? <Home /> : <Login />
+      }
+      </AuthContext.Provider>
+      </Suspense>
     </div>
   );
 }
+
 
 export default App;
